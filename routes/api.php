@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+// use Symfony\Component\Routing\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+use Illuminate\Support\Facades\Route;
+
+
+Route::namespace('Notes')->group(function(){
+    Route::prefix('notes')->group(function(){
+        Route::post('create-new-note', 'NoteController@store');
+        Route::get('', 'NoteController@index');
+        Route::get('{note}', 'NoteController@show')->name('notes.show');
+    });
+
+    Route::prefix('subjects')->group(function(){
+        Route::get('', 'SubjectController@index');
+    });
+}); 
